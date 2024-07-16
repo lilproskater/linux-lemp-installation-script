@@ -6,6 +6,7 @@ mysql_root_password=""  # Not less than 4 symbols
 mysql_user_username=""  # Not less than 3 symbols
 mysql_user_password=""  # Not less than 4 symbols
 install_snap_certbot=false
+set_as_default_php_version=true  # Works only if php_version above is not latest
 
 # Configuration validation
 if [ -z "$php_version" ]; then
@@ -32,12 +33,19 @@ sudo apt update
 sudo apt install -y software-properties-common
 sudo apt install -y nginx
 sudo systemctl enable nginx
-sudo apt install -y composer openssl wget
+sudo apt install -y openssl wget
 sudo add-apt-repository ppa:ondrej/php -y
 sudo apt update
 php_pref="php$php_version"
 sudo apt install -y $php_pref php-json $php_pref-mysql $php_pref-common $php_pref-cli $php_pref-fpm $php_pref-bz2 $php_pref-curl $php_pref-gd $php_pref-dom $php_pref-intl $php_pref-mbstring $php_pref-pgsql
 sudo systemctl enable $php_pref-fpm
+if [[ "$php_version" && "$set_as_default_php_version" == "true" ]]; then
+    sudo update-alternatives --set php /usr/bin/$php_pref
+fi
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php composer-setup.php
+sudo mv composer.phar /usr/bin/composer
+sudo rm composer-setup.php
 sudo apt install -y mysql-server
 sudo mysql -e "INSTALL PLUGIN validate_password SONAME 'validate_password.so';"
 sudo mysql -e "SET GLOBAL validate_password_policy=LOW;"
@@ -59,6 +67,6 @@ sudo mv ./phpMyAdmin-* /usr/share/phpmyadmin
 randomBlowfishSecret=$(openssl rand -base64 24) # Generate random string of 32 Bytes
 sudo sed -e "s|cfg\['blowfish_secret'\] = ''|cfg['blowfish_secret'] = '$randomBlowfishSecret'|" /usr/share/phpmyadmin/config.sample.inc.php > /usr/share/phpmyadmin/config.inc.php
 sudo mkdir -m 777 /usr/share/phpmyadmin/tmp
-if [ $install_snap_cerbot ]; then
+if [ "$install_snap_certbot" == "true" ]; then
     sudo snap install --classic certbot
 fi
