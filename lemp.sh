@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Configuration
-php_version=""  # Example: latest or 8.2
-mysql_root_password=""  # Not less than 4 symbols
-mysql_user_username=""  # Not less than 3 symbols
-mysql_user_password=""  # Not less than 4 symbols
+php_version="8.2"  # Example: latest or 8.2
+mysql_root_password="root"  # Not less than 4 symbols
+mysql_user_username="user"  # Not less than 3 symbols
+mysql_user_password="user"  # Not less than 4 symbols
 install_snap_certbot=false
 set_as_default_php_version=true  # Works only if php_version above is not latest
 
@@ -34,7 +34,7 @@ sudo apt install -y software-properties-common
 sudo apt install -y nginx
 sudo systemctl enable nginx
 sudo apt install -y openssl wget
-sudo add-apt-repository ppa:ondrej/php -y
+sudo add-apt-repository ppa:ondrej/php
 sudo apt update
 php_pref="php$php_version"
 sudo apt install -y $php_pref php-json $php_pref-mysql $php_pref-common $php_pref-cli $php_pref-fpm $php_pref-bz2 $php_pref-curl $php_pref-gd $php_pref-dom $php_pref-intl $php_pref-mbstring $php_pref-pgsql
@@ -46,6 +46,7 @@ php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php composer-setup.php
 sudo mv composer.phar /usr/bin/composer
 sudo rm composer-setup.php
+exit 1
 sudo apt install -y mysql-server
 sudo mysql -e "INSTALL PLUGIN validate_password SONAME 'validate_password.so';"
 sudo mysql -e "SET GLOBAL validate_password_policy=LOW;"
