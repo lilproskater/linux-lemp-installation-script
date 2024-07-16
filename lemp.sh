@@ -56,8 +56,9 @@ wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz
 tar -xzf phpMyAdmin-*.gz
 rm ./phpMyAdmin-*.gz
 sudo mv ./phpMyAdmin-* /usr/share/phpmyadmin
-randomBlowfishSecret=$(openssl rand -base64 32)
+randomBlowfishSecret=$(openssl rand -base64 24) # Generate random string of 32 Bytes
 sudo sed -e "s|cfg\['blowfish_secret'\] = ''|cfg['blowfish_secret'] = '$randomBlowfishSecret'|" /usr/share/phpmyadmin/config.sample.inc.php > /usr/share/phpmyadmin/config.inc.php
+sudo mkdir -m 777 /usr/share/phpmyadmin/tmp
 if [ $install_snap_cerbot ]; then
     sudo snap install --classic certbot
 fi
