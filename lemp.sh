@@ -17,15 +17,19 @@ if [[ "$php_version" == "latest" ]]; then
     php_version=""
 elif ! [[ "$php_version" =~ ^([0-9]+\.)?([0-9]+\.)?([0-9]+)$ ]]; then
     echo "Invalid php version specified"
+    exit 1
 fi
 if [[ ${#mysql_root_password} -lt 4 ]]; then
     echo "MySQL root password should not be less than 4 symbols"
+    exit 1
 fi
 if [[ ${#mysql_user_username} -lt 3 ]]; then
     echo "MySQL user username should not be less than 3 symbols"
+    exit 1
 fi
 if [[ ${#mysql_user_password} -lt 4 ]]; then
     echo "MySQL user password should not be less than 4 symbols"
+    exit 1
 fi
 
 # Installation
