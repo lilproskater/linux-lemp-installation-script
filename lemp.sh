@@ -41,7 +41,7 @@ sudo apt install -y openssl wget imagemagick
 sudo add-apt-repository ppa:ondrej/php
 sudo apt update
 php_pref="php$php_version"
-sudo apt install -y $php_pref php-json $php_pref-dev $php_pref-mysql $php_pref-common $php_pref-cli $php_pref-fpm $php_pref-bz2 $php_pref-curl $php_pref-gd $php_pref-dom $php_pref-intl $php_pref-mbstring $php_pref-pgsql $php_pref-sqlite3 $php_pref-memcache $php_pref-apcu $php_pref-imagick
+sudo apt install -y $php_pref php-json $php_pref-dev $php_pref-mysql $php_pref-common $php_pref-cli $php_pref-fpm $php_pref-bz2 $php_pref-curl $php_pref-gd $php_pref-dom $php_pref-intl $php_pref-mbstring $php_pref-zip $php_pref-pgsql $php_pref-sqlite3 $php_pref-memcache $php_pref-apcu $php_pref-imagick
 sudo systemctl enable $php_pref-fpm
 if [[ "$php_version" && "$set_as_default_php_version" == "true" ]]; then
     sudo update-alternatives --set php /usr/bin/$php_pref
