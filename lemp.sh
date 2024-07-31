@@ -50,7 +50,6 @@ php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php composer-setup.php
 sudo mv composer.phar /usr/bin/composer
 sudo rm composer-setup.php
-exit 1
 sudo apt install -y mysql-server
 sudo mysql -e "INSTALL PLUGIN validate_password SONAME 'validate_password.so';"
 sudo mysql -e "SET GLOBAL validate_password_policy=LOW;"
